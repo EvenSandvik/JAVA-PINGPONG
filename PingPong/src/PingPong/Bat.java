@@ -1,0 +1,9 @@
+package PingPong;
+
+import java.awt.Graphics;
+
+public interface Bat {
+	public void draw(Graphics g);
+	public void move();
+	public int getY();
+}

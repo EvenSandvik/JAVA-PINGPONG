@@ -22,7 +22,7 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 	boolean gameStarted = false;
 	/**Author @Even Berge Sandvik
 	 * 
-	 * PingPong main function
+	 * PingPong main class
 	 * 
 	 */
 	private static final long serialVersionUID = -4170574729049260633L;
@@ -40,12 +40,15 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 	}
 	
 	public void paint(Graphics g){
-		gfx.setColor(Color.white);//Senere sett til bakgrunn?
+		gfx.setColor(Color.white);//Senere sett til bakgrunnbilde?
 		gfx.fillRect(0, 0, WIDTH, HEIGHT);
 		gfx.setColor(Color.black);
-		gfx.drawString("Controls: W/S and I/K", 320, 10);
-		gfx.drawString(Integer.toString(score1), 40, 20);
-		gfx.drawString(Integer.toString(score2), 760, 20);
+		gfx.drawString("Controls: W/S and I/K", 340, 30);
+		gfx.drawString(Integer.toString(score1), 40, 30);
+		gfx.drawString(Integer.toString(score2), 760, 30);
+		if(!gameStarted){
+			gfx.drawString("Press Enter to start", 345, 340);	
+		}
 		if(ball.getX()<-10 || ball.getX()>810){
 			if(ball.getX()<-10)
 			score2++;

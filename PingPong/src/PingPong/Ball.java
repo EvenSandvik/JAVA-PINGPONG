@@ -10,14 +10,14 @@ public class Ball {
 	public Ball(){
 		x = 400;
 		y = 275;
-		xVel = -2;
-		yVel = 4;
+		int initSpeed = 3;
+		xVel = randomDirection(initSpeed);
+		yVel = randomDirection(initSpeed);
 	}
-	public int randomDirection(){
-		int direction = rand.nextInt(2);
-		if(direction == 1)
-			return 1;
-		return -1;
+	public int randomDirection(int speed){
+		int numb = rand.nextInt(2);
+		if(numb == 1) return speed;
+		else return -speed;
 		
 	}
 	public int randomDestination(){
@@ -26,46 +26,37 @@ public class Ball {
 	}
 	
 	public void checkPlayerBallCollision(Player p1, Player p2){
-		float center = p1.getY()+40; 
-		if(x<50){
+		
+		if(x<50 && x>45){
 			if(y >= p1.getY() && y <= p1.getY()+80)
 			{
-					/*if(y<=center+10 && y>=center-10){
-						yVel = yVel*0;
-						xVel = (xVel/xVel)*5;
-					}
-					else if(y>center+10 && y<center+20 )
-					{
-						yVel = 3;
-						xVel = (xVel/xVel)*2;
-					}
-					else if(y>=center+20)
-					{
-						yVel = 4;
-						xVel = (xVel/xVel)*1;
-					}
-					else if(y>center-10 && y<center-20 )
-					{
-						yVel = -3;
-						xVel = -(xVel/xVel)*2;
-					}
-					else if(y>=center-20)
-					{
-						yVel = -4;
-						xVel = -(xVel/xVel)*1;
-					}*/
-				xVel = -xVel;
-			}
-				
-			
+				bounceBack(p1);
+				//bounceBack2(p1);
+			}	
 		}
-		if(x>750){
+		if(x<750 && x>745){
 			if(y >= p2.getY() && y <= p2.getY()+80)
-				xVel = -xVel;
+				bounceBack(p2);
 		}
 		
 	}
 	
+	//TODO: Ball bounces back in a direction according to where it hits the bat.
+	private void bounceBack(Player p) {
+		float center = p.getY()+40;
+		
+		float scalar = (float) ((y-center)/20);
+		if(scalar<0.3f) scalar = 0.3f;
+		System.out.println(scalar);
+		yVel = 2*scalar;
+		if(scalar<0) scalar = - scalar;
+		if(xVel<0)
+			xVel = 2/scalar;
+		else if(xVel>0)
+			xVel = -2/scalar;
+	}
+	
+	//Moves the ball by adding to the x and y
 	public void move(){
 		x+=xVel;
 		y+=yVel;

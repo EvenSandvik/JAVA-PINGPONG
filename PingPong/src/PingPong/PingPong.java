@@ -6,33 +6,31 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
-
+/**Author @Even Berge Sandvik
+ * 
+ * PingPong main class
+ * 
+ */
 public class PingPong extends Applet implements Runnable, KeyListener{
-	final int WIDTH = 800, HEIGHT = 550;
+	final int WIDTH = 800, HEIGHT = 550; //TODO: make ball move and players placed by WIDHT/HEIGHT
 	Thread thread;
 	Player player1, player2;
-	Ball ball;
+	AI playerAI;
+	Ball ball = new Ball();
 	Graphics gfx;
 	Image img;
 	int score1 = 0, score2 = 0;
 	boolean gameStarted = false;
-	/**Author @Even Berge Sandvik
-	 * 
-	 * PingPong main class
-	 * 
-	 */
 	private static final long serialVersionUID = -4170574729049260633L;
 
 	public void init(){
 		this.addKeyListener(this);
 		this.resize(WIDTH, HEIGHT);
-		player1 = new Player(0);
+		player1 = new Player(0);//0 is player1, 1 is player2
 		player2 = new Player(1);
-		ball = new Ball();
+		playerAI = (AI) new AI(1,ball);
 		img = createImage(WIDTH, HEIGHT);
 		gfx = img.getGraphics();
 		thread = new Thread(this);
@@ -54,16 +52,33 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 			score2++;
 			else if(ball.getX()>810)
 				score1++;
+			countDown(g, 3);
 			ball = new Ball();
-			g.setColor(Color.red);
-			g.drawString("Game over maaaaan", 325, 275);
+			playerAI.setBall(ball);
 		}
 		else{
 			player1.draw(gfx);
-			player2.draw(gfx);
+			//player2.draw(gfx);
+			playerAI.draw(gfx);
 			ball.draw(gfx);
 		}
 		g.drawImage(img, 0, 0, this);
+	}
+
+	private void countDown(Graphics g, int tall) {
+		g.setColor(Color.red);
+		try {
+			for(int i = tall; tall<0; tall--){
+			count(g, Integer.toString(tall));}//TODO: parse to string
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void count(Graphics g, String message) throws InterruptedException {
+			g.drawString(message, 400, 275);
+			TimeUnit.MILLISECONDS.sleep(200);
 	}
 	
 	public void update(Graphics gfx){
@@ -77,11 +92,14 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 			if(gameStarted){
 				ball.move();
 				player1.move();
-				player2.move();
-				ball.checkPlayerBallCollision(player1, player2);
+				playerAI.moveAI();
+				//player2.move();
+				
+				//ball.checkPlayerBallCollision(player1, player2);
+				ball.checkPlayerBallCollision(player1, playerAI);
 			}
 			try {
-				Thread.sleep(10);
+				Thread.sleep(7);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -93,44 +111,23 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
-			gameStarted = true;
+			gameStarted = !gameStarted;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_W){
-			player1.setUp(true);
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_S){
-			player1.setDown(true);
-		}
-		if(e.getKeyCode() == KeyEvent.VK_I){
-			player2.setUp(true);
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_K){
-			player2.setDown(true);
-		}
-		
+		player1.keyPressed(e, KeyEvent.VK_W, KeyEvent.VK_S);
+		//player2.keyPressed(e, KeyEvent.VK_I, KeyEvent.VK_K);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_W){
-			player1.setUp(false);
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_S){
-			player1.setDown(false);
-		}
-		if(e.getKeyCode() == KeyEvent.VK_I){
-			player2.setUp(false);
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_K){
-			player2.setDown(false);
-		}
+		player1.keyReleased(e, KeyEvent.VK_W, KeyEvent.VK_S);
+		//player2.keyReleased(e, KeyEvent.VK_I, KeyEvent.VK_L);
 		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
+	
 	
 }

@@ -1,17 +1,11 @@
 package PingPong;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.net.URL;
+import java.awt.event.KeyEvent;
 
-public class Player implements Bat{
-	double y, yVel;
-	int x, player;
-	boolean up, down;
-	private Image batImage = null;
-	
-	public Player(int player){
+public class Player extends AbstractPlayer{
+
+	public Player(int player) {
+		//super(player);
 		up = false; down = false;
 		y = 210; yVel = 0;
 		
@@ -20,47 +14,24 @@ public class Player implements Bat{
 		else
 			x=760;
 	}
-	
-	public void draw(Graphics g) {
-		g.setColor(Color.black);
-		g.fillRect(x, (int)y, 20, 80);
-		/*try{
-			URL imageURL = Player.class.getResource(path);
+
+	public void keyPressed(KeyEvent e, int vkW, int vkS) {
+		if(e.getKeyCode() == vkW){
+			setUp(true);
 		}
-		g.drawImage(batImage, x, (int)y, 20, 80, null);*/
+		else if(e.getKeyCode() == vkS){
+			setDown(true);
+		}
+	}
+	public void keyReleased(KeyEvent e, int vkW, int vkS) {
+		if(e.getKeyCode() == vkW){
+			setUp(false);
+		}
+		else if(e.getKeyCode() == vkS){
+			setDown(false);
+		}
+		
 	}
 
-	public void move() {
-		
-		if(up)
-			yVel -= 0.2;
-		else if(down)
-			yVel += 0.2;
-		else
-			yVel = 0;
-		/*if(yVel>4)
-			y = 4;
-		else if(yVel<=-4)
-			y = -4;*/
-		
-		y += yVel;
-			
-		if(y<0) 
-			y=0;
-		if(y>470)
-			y=470;
-	}
-
-	public int getY() {
-		return (int) y;
-	}
-	
-	public void setDown(boolean bool){
-		down = bool;
-	}
-	
-	public void setUp(boolean bool){
-		up = bool;
-	}
 	
 }

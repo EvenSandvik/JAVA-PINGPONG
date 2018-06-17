@@ -14,41 +14,54 @@ public class Ball {
 		xVel = randomDirection(initSpeed);
 		yVel = randomDirection(initSpeed);
 	}
-	public int randomDirection(int speed){
+	private int randomDirection(int speed){
 		int numb = rand.nextInt(2);
 		if(numb == 1) return speed;
 		else return -speed;
 		
 	}
-	public int randomDestination(){
-		int destination = rand.nextInt(3);
-		return destination;
-	}
 	
 	public void checkPlayerBallCollision(Player p1, Player p2){
 		
 		if(x<50 && x>45){
-			if(y >= p1.getY() && y <= p1.getY()+80)
+			if(y >= p1.getY()-5 && y <= p1.getY()+85)
 			{
 				bounceBack(p1);
-				//bounceBack2(p1);
 			}	
 		}
-		if(x<750 && x>745){
-			if(y >= p2.getY() && y <= p2.getY()+80)
+		else if(x<750 && x>745){
+			if(y >= p2.getY()-5 && y <= p2.getY()+85)
+				bounceBack(p2);
+		}
+		
+	}
+public void checkPlayerBallCollision(Player p1, AI p2){
+		
+		if(x<50 && x>45){
+			if(y >= p1.getY()-5 && y <= p1.getY()+85)
+			{
+				bounceBack(p1);
+			}	
+		}
+		else if(x<750 && x>745){
+			if(y >= p2.getY()-5 && y <= p2.getY()+85)
 				bounceBack(p2);
 		}
 		
 	}
 	
 	//TODO: Ball bounces back in a direction according to where it hits the bat.
-	private void bounceBack(Player p) {
+	//Needs improvement
+	private void bounceBack(AbstractPlayer p) {
 		float center = p.getY()+40;
 		
-		float scalar = (float) ((y-center)/20);
-		if(scalar<0.3f) scalar = 0.3f;
-		System.out.println(scalar);
+		float scalar = (float) ((y-center)/1);
+		if(((scalar*scalar)/scalar)<0.3f) scalar = 0.3f;
+		System.out.println("#Ball.bounceback() " + scalar + " by:" + p);
+		if(y>center)
 		yVel = 2*scalar;
+		else
+			yVel = -2*scalar;
 		if(scalar<0) scalar = - scalar;
 		if(xVel<0)
 			xVel = 2/scalar;

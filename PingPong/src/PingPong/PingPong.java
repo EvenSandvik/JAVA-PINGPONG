@@ -8,13 +8,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
 
+import GUI.GUIMainMenu;
+
 /**Author @Even Berge Sandvik
  * 
  * PingPong main class
  * 
  */
 public class PingPong extends Applet implements Runnable, KeyListener{
-	final int WIDTH = 800, HEIGHT = 550; //TODO: make ball move and players placed by WIDHT/HEIGHT
+	private GUIMainMenu mainmenu;
+	final int WIDTH = 800, HEIGHT = 550; 
 	Thread thread;
 	Player player1, player2;
 	AI playerAI;
@@ -29,7 +32,7 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 		this.addKeyListener(this);
 		this.resize(WIDTH, HEIGHT);
 		player1 = new Player(0);//0 is player1, 1 is player2
-		player2 = new Player(1);
+		//player2 = new Player(1);
 		playerAI = (AI) new AI(1,ball);
 		img = createImage(WIDTH, HEIGHT);
 		gfx = img.getGraphics();

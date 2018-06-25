@@ -55,18 +55,18 @@ public void checkPlayerBallCollision(Player p1, AI p2){
 	private void bounceBack(AbstractPlayer p) {
 		float center = p.getY()+40;
 		
-		float scalar = (float) ((y-center)/1);
-		if(((scalar*scalar)/scalar)<0.3f) scalar = 0.3f;
+		float scalar = (float) ((y-center)/10);
+		if(scalar<1 && scalar>-1) scalar = scalar + 0.5f;
 		System.out.println("#Ball.bounceback() " + scalar + " by:" + p);
 		if(y>center)
-		yVel = 2*scalar;
+		yVel = -1*scalar;
 		else
-			yVel = -2*scalar;
+			yVel = 1*scalar;
 		if(scalar<0) scalar = - scalar;
 		if(xVel<0)
-			xVel = 2/scalar;
+			xVel = 1/scalar;
 		else if(xVel>0)
-			xVel = -2/scalar;
+			xVel = -1/scalar;
 	}
 	
 	//Moves the ball by adding to the x and y
@@ -81,7 +81,7 @@ public void checkPlayerBallCollision(Player p1, AI p2){
 	}
 	public void draw(Graphics g){
 		g.setColor(Color.black);
-		g.fillOval((int)x-10, (int)y-10, 20, 20);//-10 for center of circle
+		g.drawRect((int)x-10, (int)y-10, 20, 20);
 	}
 	public int getX(){
 		return (int) x;

@@ -21,11 +21,11 @@ public class AI extends AbstractPlayer{
 		else
 			x=760;
 		this.ball = ball;
-		ballY = ball.getY();
+		
 	}
 
 	public void moveAI(){
-		//legg til en listener elrns?
+		ballY = ball.getY();
 		Random rand = new Random();
 		if(rand.nextInt(2)==1){
 		if(ballY < this.getY()){ 

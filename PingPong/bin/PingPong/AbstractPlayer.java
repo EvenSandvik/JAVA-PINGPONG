@@ -20,13 +20,17 @@ public class AbstractPlayer implements Bat {
 
 public void move() {
 		
-		if(up)
+		/*if(up)
 			yVel -= 0.2;
 		else if(down)
 			yVel += 0.2;
 		else
 			yVel = 0;
-		y += yVel;
+		y += yVel;*/
+		if(up)
+			y = y - 4;
+		else if(down)
+			y = y + 4;
 			
 		if(y<0) 
 			y=0;

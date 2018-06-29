@@ -8,13 +8,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
 
+import GUI.GUIMainMenu;
+
 /**Author @Even Berge Sandvik
  * 
  * PingPong main class
  * 
  */
 public class PingPong extends Applet implements Runnable, KeyListener{
-	final int WIDTH = 800, HEIGHT = 550; //TODO: make ball move and players placed by WIDHT/HEIGHT
+	private GUIMainMenu mainmenu;
+	final int WIDTH = 800, HEIGHT = 550; 
 	Thread thread;
 	Player player1, player2;
 	AI playerAI;
@@ -29,7 +32,7 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 		this.addKeyListener(this);
 		this.resize(WIDTH, HEIGHT);
 		player1 = new Player(0);//0 is player1, 1 is player2
-		player2 = new Player(1);
+		//player2 = new Player(1);
 		playerAI = (AI) new AI(1,ball);
 		img = createImage(WIDTH, HEIGHT);
 		gfx = img.getGraphics();
@@ -47,12 +50,20 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 		if(!gameStarted){
 			gfx.drawString("Press Enter to start", 345, 340);	
 		}
+		//balls goes outside
 		if(ball.getX()<-10 || ball.getX()>810){
 			if(ball.getX()<-10)
 			score2++;
 			else if(ball.getX()>810)
 				score1++;
-			countDown(g, 3);
+			//small pause
+			g.drawString("Pause", 400, 275);
+			try {
+				TimeUnit.MILLISECONDS.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ball = new Ball();
 			playerAI.setBall(ball);
 		}
@@ -65,21 +76,7 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 		g.drawImage(img, 0, 0, this);
 	}
 
-	private void countDown(Graphics g, int tall) {
-		g.setColor(Color.red);
-		try {
-			for(int i = tall; tall<0; tall--){
-			count(g, Integer.toString(tall));}//TODO: parse to string
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void count(Graphics g, String message) throws InterruptedException {
-			g.drawString(message, 400, 275);
-			TimeUnit.MILLISECONDS.sleep(200);
-	}
+	
 	
 	public void update(Graphics gfx){
 		paint(gfx);
@@ -99,7 +96,7 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 				ball.checkPlayerBallCollision(player1, playerAI);
 			}
 			try {
-				Thread.sleep(10);
+				Thread.sleep(7);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,5 +126,19 @@ public class PingPong extends Applet implements Runnable, KeyListener{
 		// TODO Auto-generated method stub
 	}
 	
-	
+	private void countDown(Graphics g, int tall) {
+		g.setColor(Color.red);
+		try {
+			for(int i = tall; tall<0; tall--){
+			count(g, Integer.toString(tall));}//TODO: parse to string
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void count(Graphics g, String message) throws InterruptedException {
+			g.drawString(message, 400, 275);
+			TimeUnit.MILLISECONDS.sleep(200);
+	}
 }

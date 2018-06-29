@@ -7,6 +7,7 @@ import java.util.Random;
 public class Ball {
 	double x, y, xVel, yVel;
 	Random rand = new Random();
+	public float speed = 6;
 	public Ball(){
 		x = 400;
 		y = 275;
@@ -54,19 +55,20 @@ public void checkPlayerBallCollision(Player p1, AI p2){
 	//Needs improvement
 	private void bounceBack(AbstractPlayer p) {
 		float center = p.getY()+40;
-		
-		float scalar = (float) ((y-center)/10);
-		if(scalar<1 && scalar>-1) scalar = scalar + 0.5f;
-		System.out.println("#Ball.bounceback() " + scalar + " by:" + p);
-		if(y>center)
-		yVel = -1*scalar;
-		else
-			yVel = 1*scalar;
-		if(scalar<0) scalar = - scalar;
-		if(xVel<0)
-			xVel = 1/scalar;
-		else if(xVel>0)
-			xVel = -1/scalar;
+		xVel = Math.sin(center)*speed;
+		if(x<100){
+			if(xVel<0){
+				xVel = -xVel;
+			}
+		}
+		else{
+			if(xVel>0){
+				xVel = -xVel;
+			}
+		}
+			
+		yVel = Math.cos(center)*speed;
+		System.out.println("BounceBack# " + xVel + " : " + yVel);		
 	}
 	
 	//Moves the ball by adding to the x and y

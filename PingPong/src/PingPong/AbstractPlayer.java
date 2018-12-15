@@ -12,21 +12,15 @@ public class AbstractPlayer implements Bat {
 	double y, yVel;
 	int x, player;
 	boolean up, down;
+	int width = 20;
+	int height = 80;
 	
 	public void draw(Graphics g) {
 		g.setColor(Color.black);
-		g.fillRect(x, (int)y, 20, 80);
+		g.fillRect(x, (int)y, width, height);
 	}
 
 public void move() {
-		
-		/*if(up)
-			yVel -= 0.2;
-		else if(down)
-			yVel += 0.2;
-		else
-			yVel = 0;
-		y += yVel;*/
 		if(up)
 			y = y - 4;
 		else if(down)
@@ -49,6 +43,7 @@ public void move() {
 	public void setUp(boolean bool){
 		up = bool;
 	}
+	
 	public void moveUp(){
 		setUp(true);
 		setDown(false);
@@ -58,4 +53,7 @@ public void move() {
 		setDown(true);
 	}
 
+	public int getHeight(){
+		return height;
+	}
 }

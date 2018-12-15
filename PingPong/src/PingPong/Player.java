@@ -3,16 +3,13 @@ package PingPong;
 import java.awt.event.KeyEvent;
 
 public class Player extends AbstractPlayer{
-
-	public Player(int player) {
+	public Player(String player) {
 		//super(player);
 		up = false; down = false;
 		y = 210; yVel = 0;
-		
-		if(player == 0)
-			x = 20;
-		else
-			x=760;
+
+			if(player == "player1") x = 20;
+			else x=760;
 	}
 
 	public void keyPressed(KeyEvent e, int vkW, int vkS) {
@@ -32,6 +29,4 @@ public class Player extends AbstractPlayer{
 		}
 		
 	}
-
-	
 }

@@ -9,6 +9,7 @@ public class Ball {
 	int size, initSpeed;
 	Random rand = new Random();
 	public float speed = 6;
+	boolean magic = false;
 	public Ball(){
 		x = 400;
 		y = 275;
@@ -24,7 +25,7 @@ public class Ball {
 		
 	}
 	
-	public void checkPlayerBallCollision(Player p1, Player p2){
+	public void checkPlayerBallCollision(AbstractPlayer p1, AbstractPlayer p2){
 		
 		if(x<50 && x>30){
 			if(y >= p1.getY()-5 && y <= p1.getY()+85)
@@ -39,44 +40,9 @@ public class Ball {
 		
 		
 	}
-public void checkPlayerBallCollision(Player p1, AI p2){
-		
-		if(x<50 && x>30){
-			if(y >= p1.getY()-5 && y <= p1.getY()+85)
-			{
-				bounceBack(p1);
-			}	
-		}
-		else if(x<750 && x>730){
-			if(y >= p2.getY()-5 && y <= p2.getY()+85)
-				bounceBack(p2);
-		}
-		
-	}
-	
-	//TODO: Ball bounces back in a direction according to where it hits the bat.
-	//Needs improvement
-	private void bounceBack(AbstractPlayer p) {
-		/*float center = p.getY()+(p.getHeight()*0.5f);
-		yVel = Math.sin(center)*speed;
-		if(y<100){
-			if(yVel<0){
-				yVel = -yVel;
-			}
-		}
-		else{
-			if(yVel>0){
-				yVel = -yVel;
-			}
-		}
-			
-		xVel = Math.cos(center)*speed;
-		System.out.println("BounceBack# " + xVel + " : " + yVel);		*/
-		xVel=-xVel;
-	}
-	
+
 	//calculates how the ball bounces off Player
-			private void bounceBack(Player p, int side){
+			private void bounceBack(AbstractPlayer p, int side){
 					int center = (int) (p.getY() + (p.getHeight()*0.5f));
 					int ballHitPlayer = (int) (y-center);
 					
@@ -100,11 +66,20 @@ public void checkPlayerBallCollision(Player p1, AI p2){
 		//Bounce of roof and floor.
 		if(y<10){
 			yVel = -yVel;
-			x+=1;
+			y+=1;
 		}
 		else if(y>540){
 			yVel = -yVel;
-			x-=1;
+			y-=1;
+		}
+		if(magic){
+			speed=3;
+			if(rand.nextInt(2)==1){
+				yVel+=0.2;
+			}
+			else{
+				yVel-=0.2;
+			}
 		}
 	}
 	public void draw(Graphics g){
@@ -116,5 +91,8 @@ public void checkPlayerBallCollision(Player p1, AI p2){
 	}
 	public int getY(){
 		return (int) y;
+	}
+	public void magicMove(boolean t) {
+		magic = t;
 	}
 }

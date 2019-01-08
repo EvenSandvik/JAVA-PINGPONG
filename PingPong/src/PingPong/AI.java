@@ -27,15 +27,25 @@ public class AI extends AbstractPlayer{
 	public void moveAI(){
 		ballY = ball.getY();
 		Random rand = new Random();
-		if(rand.nextInt(2)==1){
-		if(ballY < this.getY()){ 
-			moveUp();
+		if(ball.xVel > 0){
+			if(rand.nextInt(2)==1){
+				if(ballY < this.getY()){ 
+					moveUp();
+				}
+				else if(ballY > this.getY()){ 
+					moveDown();
+				}
+			}
 		}
-		else if(ballY > this.getY()){ 
-			moveDown();
+		else{
+			if(this.y > 200){
+				moveUp();				
+			}
+			else if(this.y < 300){
+				moveDown();
+			}
 		}
 		this.move();
-		}
 	}
 	
 	public void setBall(Ball ball){

@@ -21,9 +21,6 @@ public class starWild {
 	public void draw(Graphics g){
 		checkCollision();
 		n = rnd.nextInt(4) + 1;
-		/*switch(n){
-			case n = 0: g.setColor(Color.decode("#FFDDA"));
-		}*/
 		rainbow(g);
 		g.fillRect(x, y, size, size);
 	}
@@ -37,11 +34,13 @@ public class starWild {
 	}
 	
 	private void checkCollision(){
-		if(this.y >= ball.y && this.y<= ball.y + ball.size){
-     		if(this.x >= ball.x && this.x <= ball.x + ball.size){
-     			try {this.finalize();} 
-				catch (Throwable e) {e.printStackTrace();}
-			}
-		}
+		if(ball.y >= y && ball.y<= y + size  || ball.y + ball.size >= y && ball.y+ball.size<= y + size){
+     		if(ball.x >= x && ball.x <= x + size || ball.x + ball.size >= x && ball.x+ball.size<= x + size){
+     			x = rnd.nextInt(400) + 200;
+     			y = rnd.nextInt(500)+ 20;
+     			ball.magicMove(true);
+     		}
+     		
+     	}
 	}
 }
